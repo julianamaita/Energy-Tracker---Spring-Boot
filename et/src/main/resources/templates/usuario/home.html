@@ -1,0 +1,107 @@
+<!--
+ Desenvolvedores:
+  Julia Ortiz   - RM 550204
+  Juliana Maita - RM 99224
+  Lucas Moreno  - RM 97158
+-->
+
+
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{base :: head}"></head>
+
+<body>
+<!-- Logo e Navegação -->
+<div th:replace="~{base :: logo}"></div>
+
+<!-- Título da página com Jumbotron -->
+<div th:replace="~{base :: titulo('Meus Dispositivos')}"></div>
+
+<!-- Navbar de navegação -->
+<nav class="navbar navbar-expand bg-body-tertiary d-flex justify-content-between mb-3">
+ <div class="navbar-nav">
+  <!-- Links para navegação por status, utilizando th:classappend para destacar o link ativo -->
+  <a th:classappend="${status == null ? 'active' : ''}" class="nav-link mx-2" href="/usuario/pedido">Todos</a>
+  <a th:classappend="${status == 'AGUARDANDO' ? 'active' : ''}" class="nav-link mx-2" href="/usuario/pedido/aguardando">Aguardando</a>
+  <a th:classappend="${status == 'ATIVO' ? 'active' : ''}" class="nav-link mx-2" href="/usuario/pedido/ativo">Ativo</a>
+  <a th:classappend="${status == 'FINALIZADO' ? 'active' : ''}" class="nav-link mx-2" href="/usuario/pedido/finalizado">Finalizado</a>
+  <a th:classappend="${status == 'ENTREGUE' ? 'active' : ''}" class="nav-link mx-2" href="/usuario/pedido/entregue">Entregue</a>
+ </div>
+ <!-- Botão Novo -->
+ <a href="/pedido/formulario">
+  <button class="btn btn-outline-secondary me-3">Novo</button>
+ </a>
+</nav>
+
+<!-- Container com os pedidos -->
+<div class="container mt-4">
+ <div class="row">
+  <div class="col-12">
+   <!-- Exibição dos pedidos -->
+   <div th:each="pedido : ${pedidos}" class="card mb-3">
+    <!-- Cards com base no status -->
+    <th:block th:switch="${pedido.status != null ? pedido.status.name() : 'STATUS DESCONHECIDO'}">
+     <div th:case="'AGUARDANDO'" class="card-header alert alert-warning" th:text="AGUARDANDO"></div>
+     <div th:case="'ATIVO'" class="card-header alert alert-success" th:text="ATIVO"></div>
+     <div th:case="'FINALIZADO'" class="card-header alert alert-info" th:text="FINALIZADO"></div>
+     <div th:case="'ENTREGUE'" class="card-header alert alert-dark" th:text="ENTREGUE"></div>
+     <div th:case="'STATUS DESCONHECIDO'" class="card-header alert alert-secondary" th:text="STATUS DESCONHECIDO"></div>
+    </th:block>
+
+    <!-- Corpo do Card -->
+    <div class="card-body">
+
+     <!-- Nome do Produto -->
+     <h3 class="card-title"
+         th:text="${pedido.nomeProduto != null ? pedido.nomeProduto : 'Produto sem nome'}"></h3>
+
+     <div class="row">
+      <!-- Tipo do Produto -->
+      <div class="col-md-4 mb-3">
+       <strong>Tipo:</strong> <span th:text="${pedido.tipo}"></span>
+      </div>
+      <!-- Consumo de Energia do Produto -->
+      <div class="col-md-4 mb-3">
+       <strong>Consumo de Energia:</strong> <span th:text="${pedido.consumoEnergia+' W'}"></span>
+      </div>
+      <!-- Status Ativo do Produto -->
+      <div class="col-md-4 mb-3">
+       <strong>Status Ativo:</strong> <span th:text="${pedido.statusAtivo}"></span>
+      </div>
+     </div>
+
+     <div class="row">
+      <div class="col-md-6">
+       <!-- URL do Produto -->
+       <div class="mb-3">
+        <strong>URL do Produto:</strong>
+        <input class="form-control" th:value="${pedido.urlProduto}" placeholder="URL do produto">
+       </div>
+       <!-- Descrição do Produto -->
+       <div class="mb-3">
+        <strong>Descrição:</strong>
+        <textarea class="form-control" rows="4" th:text="${pedido.descricao}" readonly>Descrição do pedido</textarea>
+       </div>
+      </div>
+
+      <div class="col-md-6">
+       <!-- Imagem do Produto -->
+       <div class="mb-3">
+        <img class="img-thumbnail" th:src="${pedido.urlImagem != null ? pedido.urlImagem : '/images/default.jpg'}" alt="Imagem do pedido não encontrada">
+       </div>
+      </div>
+     </div>
+
+    </div>
+   </div>
+
+  </div>
+ </div>
+</div>
+
+<!-- Link para o JS do Bootstrap -->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0g6c4Xv6Hutj9TFO9TnCwz9m+FCdBqk+ljxA2+1eZ5A6mJPO" crossorigin="anonymous"></script>-->
+</body>
+
+</html>

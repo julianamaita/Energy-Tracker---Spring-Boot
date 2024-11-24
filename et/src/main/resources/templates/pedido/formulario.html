@@ -1,0 +1,103 @@
+<!--
+ Desenvolvedores:
+  Julia Ortiz   - RM 550204
+  Juliana Maita - RM 99224
+  Lucas Moreno  - RM 97158
+-->
+
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base :: head}"></head>
+<body>
+<div th:replace="~{base :: logo}"></div>
+
+<div class="container mt-5">
+  <!-- Título com Jumbotron -->
+  <div th:replace="~{base :: titulo('Novo Pedido')}"></div>
+
+  <!-- Formulário -->
+  <form th:action="@{/pedido/novo}" method="POST" th:object="${requisicaoNovoPedido}" class="card mx-auto col-md-6 mt-3">
+    <div class="card-body">
+
+      <!-- Nome do Produto -->
+      <div class="form-group mb-3">
+        <label for="nomeProduto">Produto</label>
+        <input id="nomeProduto" type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Informe o nome do produto" required>
+        <small class="form-text text-muted">Informe qual é o nome do produto.</small>
+        <div th:if="${#fields.hasErrors('nomeProduto')}" class="text-danger" th:errors="*{nomeProduto}"></div>
+      </div>
+
+      <!-- Tipo do Produto -->
+      <div class="form-group mb-3">
+        <label for="tipo">Tipo</label>
+        <input id="tipo" type="text" class="form-control" th:field="*{tipo}" placeholder="Informe o tipo do produto" required>
+        <small class="form-text text-muted">Informe o tipo do produto.</small>
+        <div th:if="${#fields.hasErrors('tipo')}" class="text-danger" th:errors="*{tipo}"></div>
+      </div>
+
+      <!-- Consumo de Energia -->
+      <div class="form-group mb-3">
+        <label for="consumoEnergia">Consumo de Energia (W)</label>
+        <input id="consumoEnergia" type="number" step="0.01" class="form-control" th:field="*{consumoEnergia}" placeholder="Informe o consumo de energia" required>
+        <small class="form-text text-muted">Informe o consumo de energia do produto.</small>
+        <div th:if="${#fields.hasErrors('consumoEnergia')}" class="text-danger" th:errors="*{consumoEnergia}"></div>
+      </div>
+
+      <!-- Status Ativo -->
+      <div class="form-group mb-3">
+        <label for="statusAtivo">Status Ativo</label>
+        <select id="statusAtivo" class="form-control" th:field="*{statusAtivo}" required>
+          <option value="Ativo">Ativo</option>
+          <option value="Inativo">Inativo</option>
+        </select>
+        <small class="form-text text-muted">Selecione se o produto está ativo.</small>
+        <div th:if="${#fields.hasErrors('statusAtivo')}" class="text-danger" th:errors="*{statusAtivo}"></div>
+      </div>
+
+      <!-- URL do Produto -->
+      <div class="form-group mb-3">
+        <label for="urlProduto">URL do Produto</label>
+        <input id="urlProduto" type="url" class="form-control" th:field="*{urlProduto}" placeholder="Cole a URL do produto" required>
+        <small class="form-text text-muted">Procure o produto em um site e cole a URL da página.</small>
+        <div th:if="${#fields.hasErrors('urlProduto')}" class="text-danger" th:errors="*{urlProduto}"></div>
+      </div>
+
+      <!-- URL da Imagem -->
+      <div class="form-group mb-3">
+        <label for="urlImagem">URL da Imagem</label>
+        <input id="urlImagem" type="url" class="form-control" th:field="*{urlImagem}" placeholder="Cole a URL da imagem" required>
+        <small class="form-text text-muted">Copie a URL de uma boa imagem do produto e cole aqui.</small>
+        <div th:if="${#fields.hasErrors('urlImagem')}" class="text-danger" th:errors="*{urlImagem}"></div>
+      </div>
+
+      <!-- Descrição -->
+      <div class="form-group mb-3">
+        <label for="descricao">Descrição</label>
+        <textarea id="descricao" class="form-control" th:field="*{descricao}" rows="3" placeholder="Adicione uma descrição do produto" required></textarea>
+        <small class="form-text text-muted">Escreva uma breve descrição do produto.</small>
+        <div th:if="${#fields.hasErrors('descricao')}" class="text-danger" th:errors="*{descricao}"></div>
+      </div>
+
+      <!-- Status do Pedido -->
+      <div class="form-group mb-3">
+        <label for="status">Status do Pedido</label>
+        <select id="status" class="form-control" th:field="*{status}" required>
+          <option value="AGUARDANDO">Aguardando</option>
+          <option value="ATIVO">Ativo</option>
+          <option value="FINALIZADO">Finalizado</option>
+          <option value="ENTREGUE">Entregue</option>
+        </select>
+        <small class="form-text text-muted">Escolha o status atual do pedido.</small>
+        <div th:if="${#fields.hasErrors('status')}" class="text-danger" th:errors="*{status}"></div>
+      </div>
+
+      <!-- Botão de Submissão -->
+      <div class="text-center">
+        <button type="submit" class="btn " style="background-color: #28a745; color: white; padding-left: 3rem; padding-right: 3rem;">Cadastrar Pedido</button>
+      </div>
+
+    </div>
+  </form>
+</div>
+</body>
+</html>
